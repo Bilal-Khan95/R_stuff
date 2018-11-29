@@ -24,7 +24,7 @@ setwd("C:/Users/tknow/Desktop/datasets")
 RawData <- read.csv("C:/Users/Admin/Documents/Bilal - R/BreastCancerData.csv")
 
 #The 'c' function puts individual Strings into a String vector. This String vector can
-#be added to the DataFrame as a header row with the 'names' function.
+#be added to the DataFrame as a header row with the 'names' fun?ction.
 
 names(RawData) <- c("ID","Diagnosis","Mean Radius","Mean Texture", "Mean Perimeter","Mean Area","Mean Smoothness","Mean Compactness","Mean Concavity","Mean Concave Points","Mean Symmetry","Mean Fractal Dimension",
                  "Radius SE","Texture SE","Perimeter SE","Area SE", "Smoothness SE","Compactness SE","Concavity SE","Concave Points SE","Symmetry SE","Fractal Dimension SE",
@@ -50,10 +50,10 @@ RawData_Normalised <- as.data.frame(lapply(RawData_NoResults, FeatureScaling))
 #Now our data has been normalised according to our function
 
 #This is a good time to split our data. Let's go for a 75:25 (ish) split.
-RawData_Training <- RawData_Normalised[1:426,] #Leave the value after the comma empty to
+RawData_Training <- RawData_Normalised[1:450,] #Leave the value after the comma empty to
                                                     #capture all columns
 
-RawData_Test <- RawData_Normalised[426:568,]
+RawData_Test <- RawData_Normalised[451:568,]
 
 #Finally, let's compute a k-Value to use with the classifier
 #The rule of thumb is the square root of the number of observations
@@ -65,7 +65,7 @@ K_Value <- floor(sqrt(length(RawData_Training[,1])))  #Result is floored, as k m
 #Now we can use the KNN Algorithm that comes with the 'class' package to classify our data
 #This is done all at once, in a single function
 
-RawData_Predictions <- knn(RawData_Training,RawData_Test, RawData_NoID[1:426,1], k=K_Value)
+RawData_Predictions <- knn(RawData_Training,RawData_Test, RawData_NoID[1:450,1], k=K_Value)
 
 #Now, let's view the performance of our KNN
 #This is expressed in terms of {True Positives   False Positives}
@@ -73,7 +73,7 @@ RawData_Predictions <- knn(RawData_Training,RawData_Test, RawData_NoID[1:426,1],
 
 #First, subset the reference data into its own data frame
 
-RawData_Reference <- RawData_NoID[426:568,1]
+RawData_Reference <- RawData_NoID[451:568,1]
 
 #Then, we can tabulate the two
 
@@ -102,8 +102,8 @@ kValues <- c()
 
 for(i in c(1:100)) {
   
-  next_error <-  table(knn(RawData_Training,RawData_Test,RawData_NoID[1:426,1],k=i),RawData_Reference)[1,2] +
-                table(knn(RawData_Training,RawData_Test,RawData_NoID[1:426,1],k=i),RawData_Reference)[2,1]
+  next_error <-  table(knn(RawData_Training,RawData_Test,RawData_NoID[1:450,1],k=i),RawData_Reference)[1,2] +
+                table(knn(RawData_Training,RawData_Test,RawData_NoID[1:450,1],k=i),RawData_Reference)[2,1]
   
   big_errors <- c(big_errors, next_error)
   
